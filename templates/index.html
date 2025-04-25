@@ -6,6 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    <p>This is my home page</p>
+    <div>
+        <!-- {% if data %}
+        <p>This is my home page, {{data}}</p>
+        This is my Flask App
+        {% else %}
+        <p>Data not provided</p>
+        {% endif %} -->
+
+        {% for number in numbers %}
+        <li> {{number}}</li>
+        {% endfor %}
+    </div>
 </body>
 </html>

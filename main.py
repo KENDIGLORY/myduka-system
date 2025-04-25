@@ -12,7 +12,8 @@ app = Flask(__name__)
  
 @app.route('/home')
 def home():
-    return render_template("index.html")
+    numbers = [1,2,3,4,5]
+    return render_template("index.html",numbers=numbers)
 
 @app.route('/products')
 def products():
