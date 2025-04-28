@@ -27,7 +27,7 @@ def sales():
 
 @app.route('/')
 def list():
-    fruits = ['Banana,Orange,Apple,Pineapple,Dates']
+    fruits = ['Banana','Orange','Apple','Pineapple','Dates']
     return render_template("index.html" , fruits=fruits)
 
 # task 2. go and create tables using borrowed css(boostrap) -use boostrap to create tables with random data 
