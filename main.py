@@ -1,5 +1,6 @@
 # IMPORT flask to use it
 from flask import Flask, render_template
+from database import fetch_products , fetch_sales
 
 # initialise your application- initialization
 app = Flask(__name__)
@@ -17,10 +18,15 @@ def home():
 
 @app.route('/products')
 def products():
-    return "My products page"
+    products=fetch_products()
+    return render_template("products.html", products=products)
+
 @app.route('/sales')
 def sales():
-    return "My sale page"
+    sales=fetch_sales()
+    return render_template("sales.html" , sales=sales)
+
+
 
 
 # TASK; 1. Create another list n annother route and loop through it using jinja to pass list values in a htmlpage

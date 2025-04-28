@@ -11,22 +11,18 @@ def fetch_products():
     cur.execute("select * from products;")
 
     products = cur.fetchall()
-    for product in products:
+    return products
 
-        print(product)
 
 
 def fetch_sales():
     cur.execute("select * from sales")
     sales = cur.fetchall()
-    for sale in sales:
-        print(sale)
-
-# fetch_products()
-# fetch_sales()
+    return sales
 
 
-# a querry inserting a product
+
+# querry inserting a product
 def insert_products():
     cur.execute("insert into products(name,buying_price,selling_price,stock_quantity)values('milk',50,60,100);")
     conn.commit() # saving operations
