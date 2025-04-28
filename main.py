@@ -22,4 +22,14 @@ def products():
 def sales():
     return "My sale page"
 
+
+# TASK; 1. Create another list n annother route and loop through it using jinja to pass list values in a htmlpage
+
+@app.route('/')
+def list():
+    fruits = ['Banana,Orange,Apple,Pineapple,Dates']
+    return render_template("index.html" , fruits=fruits)
+
+# task 2. go and create tables using borrowed css(boostrap) -use boostrap to create tables with random data 
+
 app.run(debug=True)
