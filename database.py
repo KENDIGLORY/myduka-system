@@ -23,6 +23,7 @@ def fetch_sales():
 
 
 # querry inserting a product
+
 def insert_products():
     cur.execute("insert into products(name,buying_price,selling_price,stock_quantity)values('milk',50,60,100);")
     conn.commit() # saving operations
