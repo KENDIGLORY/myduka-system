@@ -1,9 +1,14 @@
 # IMPORT flask to use it
 from flask import Flask, render_template,request,redirect,url_for
-from database import fetch_products , fetch_sales, insert_products
-
+from database import fetch_products , fetch_sales, insert_products,insert_sales,profit_per_product,sales_per_product,check_user,insert_user
+from flask_bcrypt import Bcrypt
 # initialise your application- initialization
 app = Flask(__name__)
+
+# initialize Bcrypt
+bcrypt = Bcrypt(app) 
+
+
 
 # __name__ special built in variable
 # represents the name of the current file where your application is
@@ -34,18 +39,74 @@ def add_products():
 @app.route('/sales')
 def sales():
     sales=fetch_sales()
-    return render_template("sales.html" , sales=sales)
+    products=fetch_products()
+    return render_template("sales.html" , sales=sales,products=products)
+
+@app.route('/make_sale', methods=["GET","POST"])
+def make_sale():
+    product_id = request.form['pid']
+    quantity = request.form['quantity']
+    new_sale = (product_id,quantity)
+    insert_sales(new_sale)
+    return redirect(url_for('sales'))
+
 
 
 
 
 # TASK; 1. Create another list n annother route and loop through it using jinja to pass list values in a htmlpage
 
-@app.route('/')
-def list():
-    fruits = ['Banana','Orange','Apple','Pineapple','Dates']
-    return render_template("index.html" , fruits=fruits)
+@app.route('/dashboard')
+def dashboard():
+    profit_product = profit_per_product()
+    sales_product = sales_per_product()
 
-# task 2. go and create tables using borrowed css(boostrap) -use boostrap to create tables with random data 
+    product_name = [i[0] for i in profit_product]
+    p_product = [float(i[1]) for i in profit_product]
+    s_product = [float(i[1]) for i in sales_product]
+
+    
+    return render_template("dashboard.html" ,product_name=product_name,p_product=p_product,s_product=s_product)
+
+
+@app.route('/register',methods =['GET','POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone_number = request.form['phone']
+        password = request.form['password']
+
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user = check_user(email)
+        print('registered')
+        if not user :
+            new_user = (name,email,phone_number,hashed_password)
+            insert_user(new_user)
+            return redirect(url_for('login'))
+        else:
+            print('Already registered')
+
+
+    return render_template('register.html')
+
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = check_user(email)
+        if not user:
+            return redirect(url_for('register'))
+        else:
+            if bcrypt.check_password_hash(user[-1],password):
+                return redirect(url_for('dashboard'))
+            else:
+                print('Incorect password')
+
+    return render_template("login.html")
+
+
 
 app.run(debug=True)

@@ -9,13 +9,92 @@
 
 </head>
 <body>
+    <div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">MyDuka</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/sales">Sales</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">dashboard</a>
+                  </li>
+                 
+                  
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </div>
+
+<div>
+  {{profit_product}}
+</div>
+
+<p>Sales per product</p>
+<div>
+  {{sales_product}}
+</div>
+
+    <div>
+      <div>
+        <canvas id="bar-chart" width="800" height="450"></canvas>
+      </div>
+    </div>
+
     
 
 
 
+    
 
+   
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script>
+      new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: {{product_name | safe}},
+      datasets: [
+        {
+          label: "profit per product",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: {{p_product | safe}}
+        },
+       {
+        label: "sales per product",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: {{s_product | safe}}
+        },
+
+
+        
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Sales and profit per product'
+      }
+    }
+});
+      
+
+    </script>
 
 </body>
 </html>

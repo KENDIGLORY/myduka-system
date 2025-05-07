@@ -29,9 +29,14 @@ def insert_products():
     conn.commit() # saving operations
 
 # a querri inserting sales
-def insert_sales():
-    cur.execute(f"insert into sales(pid,quantity,created_at)values(20,7.01,'{current_datetime}');")
+# def insert_sales():
+#     cur.execute(f"insert into sales(pid,quantity,created_at)values(20,7.01,'{current_datetime}');")
+#     conn.commit()
+def insert_sales(values):
+    insert = "insert into sales(pid,quantity,created_at)values(%s,%s,'now()')"
+    cur.execute(insert,values)
     conn.commit()
+
 
 # insert_products()
 # insert_sales()
@@ -57,8 +62,8 @@ def fetch_data(table):
     return data
 products = fetch_data('products')
 sales = fetch_data('sales')
-print(products)
-print(sales)
+# print(products)
+# print(sales)
 # inserting data
 # method 1-insert products function thata takes values as a parameter and uses placeholders(%S)
 # no. of placeholders to mathc the no of values
@@ -70,7 +75,7 @@ def insert_products(values):
 product1 =("laptop",30000,40000,10)
 insert_products(product1)
 products=fetch_data('products')
-print(products)
+# print(products)
 
 # method2 insert data in any table
 # this func takes table,columns,and values as parameters-uses f-string
@@ -84,6 +89,57 @@ print(products)
 # insert_data(table,columns,values)
 # products = fetch_data('products')
 # print(products)
+
+
+# profit per product
+def profit_per_product():
+    cur.execute("""select products.name, sum((products.selling_price -products.buying_price)*sales.quantity) as profit from products join sales on products.id = sales.pid group by(products.name);
+                """)
+    profit_per_product = cur.fetchall()
+    return profit_per_product
+
+# profit per day
+def profit_per_day():
+    cur.execute("""select date(sales.created_at) as date, sum((products.selling_price -products.buying_price)*sales.quantity) as profit from products join sales on products.id = sales.pid group by date;
+                """)
+    profit_per_day = cur.fetchall()
+    return profit_per_day
+
+# sales per product
+def sales_per_product():
+    cur.execute("""select products.name, sum(products.selling_price * sales.quantity) as revenue from products join sales on products.id = sales.pid group by(products.name);
+                """)
+    sales_per_product = cur.fetchall()
+    return sales_per_product
+
+# sales per day
+def sales_per_day():
+    cur.execute("""select date(sales.created_at) as date, sum(products.selling_price * sales.quantity) as revenue from sales join products on products.id = sales.pid group by date;
+                """)
+    sales_per_day = cur.fetchall()
+    return sales_per_day
+
+
+
+def check_user(email):
+    query = "select * from users where email = %s"
+    cur.execute(query,(email,))
+    user = cur.fetchone()
+    return user
+
+def insert_user(user_details):
+    query = "insert into users(name,email,phone_number,password)values(%s,%s,%s,%s)"
+    cur.execute(query,user_details)
+    conn.commit()
+    
+    
+
+
+
+
+    
+
+
 
 
 
