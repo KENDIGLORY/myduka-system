@@ -1,9 +1,12 @@
 # IMPORT flask to use it
-from flask import Flask, render_template,request,redirect,url_for
+from flask import Flask, render_template,request,redirect,url_for,flash,session
 from database import fetch_products , fetch_sales, insert_products,insert_sales,profit_per_product,sales_per_product,check_user,insert_user
 from flask_bcrypt import Bcrypt
+from functools import wraps
 # initialise your application- initialization
 app = Flask(__name__)
+
+app.secret_key = '1234ab'
 
 # initialize Bcrypt
 bcrypt = Bcrypt(app) 
@@ -21,7 +24,21 @@ def home():
     numbers = [1,2,3,4,5]
     return render_template("index.html",numbers=numbers)
 
+def login_required(f):
+    @wraps(f)
+    def protected(*args,**kwrags):
+        if 'email' not in session:
+            return redirect(url_for('login'))
+        return f(*args,**kwrags)
+    return (protected)
+
+@app.route('/test')
+def test():
+    flash('Testing flash messages','danger')
+    return render_template("sample.html")
+
 @app.route('/products')
+@login_required
 def products():
     products=fetch_products()
     return render_template("products.html", products=products)
@@ -58,6 +75,7 @@ def make_sale():
 
 @app.route('/dashboard')
 def dashboard():
+    
     profit_product = profit_per_product()
     sales_product = sales_per_product()
 
@@ -98,12 +116,15 @@ def login():
 
         user = check_user(email)
         if not user:
+            flash('user not found,please register','danger')
             return redirect(url_for('register'))
         else:
             if bcrypt.check_password_hash(user[-1],password):
+                flash('Logged in','success')
+                session['email'] = email
                 return redirect(url_for('dashboard'))
             else:
-                print('Incorect password')
+                flash('Incorect password','danger')
 
     return render_template("login.html")
 

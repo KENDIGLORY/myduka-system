@@ -1,129 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+{% extends 'base.html'  %}
+{% block title %} Sales {% endblock %}
 
-</head>
-<body>
-    <div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">MyDuka</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/products">Products</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/sales">Sales</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
-                  </li>
-                  
-                  
-                </ul>
-              </div>
-            </div>
-          </nav>
-    </div>
-    <div>
-        <form action="/make_sale" method="post">
-            <div>
-                <select name="pid" >
-                    <option value="">Select Product</option>
-                    {% for product in products %}
-                    <option value={{product[0]}}>{{product[1]}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="">Quantity</label> <br>
-                <input type="number" name="quantity"> 
-            </div>
-            <div>
-                <button type="submit">Make Sale</button>
-            </div>
+{% block content %}
+<div>
+  <form action="/make_sale" method="post">
+      <div>
+          <select name="pid" >
+              <option value="">Select Product</option>
+              {% for product in products %}
+              <option value={{product[0]}}>{{product[1]}}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div>
+          <label for="">Quantity</label> <br>
+          <input type="number" name="quantity"> 
+      </div>
+      <div>
+          <button type="submit">Make Sale</button>
+      </div>
 
 
-        </form>
+  </form>
 
 
-    </div>
+</div>
 
 
 <!-- 
-    <div>
-        <form action="/add_sales" method="post">
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Sale ID</label>
-              <input type="number" class="form-control" name="s_id" id="exampleInputEmail1" aria-describedby="emailHelp">
-              <!-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> -->
-            <!-- </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Product ID</label>
-              <input type="number" class="form-control" name="p_id" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                <input type="number" class="form-control" name="qty" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Created at</label>
-                <input type="time" class="form-control" name="created_at" id="exampleInputPassword1">
-            </div>
+<div>
+  <form action="/add_sales" method="post">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Sale ID</label>
+        <input type="number" class="form-control" name="s_id" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <!-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> -->
+      <!-- </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Product ID</label>
+        <input type="number" class="form-control" name="p_id" id="exampleInputPassword1">
+      </div>
+      <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Quantity</label>
+          <input type="number" class="form-control" name="qty" id="exampleInputPassword1">
+      </div>
+      <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Created at</label>
+          <input type="time" class="form-control" name="created_at" id="exampleInputPassword1">
+      </div>
 
-            
+      
 
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
-    </div> --> -->
+</div> --> -->
 
-    <div>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Sale ID</th>
-                <th scope="col">Product ID</th>
+<div>
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Sale ID</th>
+          <th scope="col">Product ID</th>
 
-                <th scope="col">Quantity</th>
-                <th scope="col">Created at</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Created at</th>
+
+        </tr>
+      </thead>
+      <tbody>
+          {% for sale in sales %}
+        <tr>
+          <td>{{sale[0]}}</td>
+          <td>{{sale[1]}}</td>
+          <td>{{sale[2]}}</td>
+          <td>{{sale[3]}}</td>
+
+
+        </tr> 
+        {% endfor %}
+      </tbody>
+    </table>
+</div>     
+
+
+
     
-              </tr>
-            </thead>
-            <tbody>
-                {% for sale in sales %}
-              <tr>
-                <td>{{sale[0]}}</td>
-                <td>{{sale[1]}}</td>
-                <td>{{sale[2]}}</td>
-                <td>{{sale[3]}}</td>
-
-
-              </tr> 
-              {% endfor %}
-            </tbody>
-          </table>
-    </div>     
-    
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-
-</body>
-</html>
+{% endblock%}

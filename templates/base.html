@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>{% block title %} {% endblock%}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/static/navbar.css">
 </head>
 <body>
-    <div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
+
+
+    <div class="navbar">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">MyDuka</a>
@@ -41,55 +45,28 @@
           </nav>
     </div>
 
-
     <div>
-      <div>
-        <canvas id="bar-chart" width="800" height="450"></canvas>
-      </div>
-    </div>
-
-    
-
-
-
-    
-
+       
+    <div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
    
+          {% for category, message in messages %}
+          <div class="alert alert-{{category}} alert-dismissable" role="alert">
+             {{message}}
+             <button type="button" class="btn btn-close"  data-bs-dismiss="alert" ></button>
+          </div>
+          {% endfor %}
+  
+        {% endif %}
+        {% endwith %}
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script>
-      new Chart(document.getElementById("bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: {{product_name | safe}},
-      datasets: [
-        {
-          label: "profit per product",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: {{p_product | safe}}
-        },
-       {
-        label: "sales per product",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: {{s_product | safe}}
-        },
-
-
-        
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Sales and profit per product'
-      }
-    }
-});
-      
-
-    </script>
-
+    {% block content %}
+    
+    {% endblock%}
+    
+    <p> The footer</p>
+    
 </body>
 </html>
