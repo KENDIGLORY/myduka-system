@@ -2,7 +2,7 @@ import psycopg2
 from datetime import datetime
 
 # create connection to db
-conn = psycopg2.connect(user="postgres",password="123456789",host="localhost",port="5432",database="myduka")
+conn = psycopg2.connect(user="postgres",password="123456789",host="localhost",port="5432",database="my_duka")
 
 cur = conn.cursor()
 current_datetime = datetime.now()
@@ -16,9 +16,9 @@ def fetch_products():
 
 
 def fetch_sales():
-    cur.execute("select * from sales")
-    sales = cur.fetchall()
-    return sales
+    cur.execute("select * from stock")
+    stock = cur.fetchall()
+    return stock
 
 
 
@@ -60,21 +60,14 @@ def fetch_data(table):
     cur.execute(f"select * from {table};")
     data = cur.fetchall()
     return data
-products = fetch_data('products')
-sales = fetch_data('sales')
-# print(products)
-# print(sales)
-# inserting data
-# method 1-insert products function thata takes values as a parameter and uses placeholders(%S)
-# no. of placeholders to mathc the no of values
+
 def insert_products(values):
-    insert = "insert into products(name,buying_price,selling_price,stock_quantity)values(%s,%s,%s,%s)"
+    insert = "insert into products(name,buying_price,selling_price)values(%s,%s,%s)"
     cur.execute(insert,values)
     conn.commit()
 
-product1 =("laptop",30000,40000,10)
-insert_products(product1)
-products=fetch_data('products')
+
+
 # print(products)
 
 # method2 insert data in any table
@@ -128,7 +121,7 @@ def check_user(email):
     return user
 
 def insert_user(user_details):
-    query = "insert into users(name,email,phone_number,password)values(%s,%s,%s,%s)"
+    query = "insert into users(full_name,email,phone_number,password)values(%s,%s,%s,%s)"
     cur.execute(query,user_details)
     conn.commit()
     

@@ -19,7 +19,7 @@ bcrypt = Bcrypt(app)
 # parameters we can pass in a route function
 # 1.Rule -eg //products,/sales,/users -defines the path a user accesses in the browser
  
-@app.route('/home')
+@app.route('/')
 def home():
     numbers = [1,2,3,4,5]
     return render_template("index.html",numbers=numbers)
@@ -48,12 +48,12 @@ def add_products():
     product_name = request.form['p-name']
     buying_price = request.form['b-price']
     selling_price = request.form['s-price']
-    stock_quantity = request.form['s-quantity']
-    new_product = (product_name,buying_price,selling_price,stock_quantity)
+    new_product = (product_name,buying_price,selling_price)
     insert_products(new_product)
     return redirect(url_for('products'))
 
 @app.route('/sales')
+@login_required
 def sales():
     sales=fetch_sales()
     products=fetch_products()
@@ -74,6 +74,7 @@ def make_sale():
 # TASK; 1. Create another list n annother route and loop through it using jinja to pass list values in a htmlpage
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
     
     profit_product = profit_per_product()
@@ -109,6 +110,7 @@ def register():
     return render_template('register.html')
 
 @app.route('/login',methods=['GET','POST'])
+
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -128,6 +130,24 @@ def login():
 
     return render_template("login.html")
 
+@app.route('/logout')
+def logout():
+    session.pop('email',None)
+    flash('You have been logged out', 'info')
+    return redirect(url_for('login'))
+
+
+@app.route('/stock')
+def stock():
+    # get products
+    products = fetch_products()
+    return render_template('stock.html',products=products)
+
+@app.route('/add_stock',methods=['GET','POST'])
+def add_stock():
+    if request.method == 'POST':
+        pass
+    
 
 
 app.run(debug=True)

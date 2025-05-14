@@ -1,7 +1,28 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
-  }
+
+.container-fluid1{
+  background-color: black;
+
+  
+}  
+.container-fluid1 a{
+  color: aliceblue;
+  margin-bottom: 15%;
+  justify-content: space-between;
+}
+
+li {
+    margin: 10px; 
+    /* margin-left: 80px; */
+    color: aliceblue;  
+}
+
+.list {
+  width: 1400px;
+  margin-left: 300px;
+  background-color: black;
+
+}
+.list a{
+  color: aliceblue;
+}
+  

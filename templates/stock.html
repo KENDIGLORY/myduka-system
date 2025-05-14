@@ -1,0 +1,64 @@
+{% extends 'base.html'  %}
+{% block title %} Stock {% endblock %}
+
+{% block content %}
+<!-- <p>This is the stock page</p>
+<div>
+     <form action="/add_stock" method="post">
+
+      <div>
+          <select name="pid" >
+              <option value="">Select Product</option>
+              {% for product in products %}
+              <option value={{product[0]}}>{{product[1]}}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div>
+          <label for="">Quantity</label> <br>
+          <input type="number" name="quantity"> 
+      </div>
+      <div>
+          <button type="submit">Add stock</button>
+      </div>
+</div> -->
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  add stock
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+            <form action="/add_stock" method="post">
+            <select name="pid" >
+                <option value="">Select Product</option>
+                {% for product in products %}
+                <option value={{product[0]}}>{{product[1]}}</option>
+                {% endfor %}
+            </select>
+            <input type="number" name="quantity"> 
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Add Stock</button>
+            </form>   
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+{% endblock%}
+
+
