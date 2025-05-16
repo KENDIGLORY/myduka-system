@@ -2,28 +2,6 @@
 {% block title %} Stock {% endblock %}
 
 {% block content %}
-<!-- <p>This is the stock page</p>
-<div>
-     <form action="/add_stock" method="post">
-
-      <div>
-          <select name="pid" >
-              <option value="">Select Product</option>
-              {% for product in products %}
-              <option value={{product[0]}}>{{product[1]}}</option>
-              {% endfor %}
-          </select>
-      </div>
-      <div>
-          <label for="">Quantity</label> <br>
-          <input type="number" name="quantity"> 
-      </div>
-      <div>
-          <button type="submit">Add stock</button>
-      </div>
-</div> -->
-
-
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -48,7 +26,7 @@
             </select>
             <input type="number" name="quantity"> 
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Add Stock</button>
+            <button type="submit" class="btn btn-primary">Add Stock</button>
             </form>   
       </div>
       <div class="modal-footer">
@@ -57,6 +35,32 @@
     </div>
   </div>
 </div>
+
+
+
+<table id="example" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Stock Id</th>
+                <th>Product Id</th>
+                <th>Stock Quantity</th>
+                <th>Created at</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+          {% for i in stock%}
+            <tr>
+                <td>{{i[0]}}</td>
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+                <td>{{i[3]}}</td>
+                
+            </tr>
+            {% endfor %}
+</table>            
+           
+
 
     
 {% endblock%}

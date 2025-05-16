@@ -47,7 +47,13 @@
           <td>{{product[1]}}</td>
           <td>{{product[2]}}</td>
           <td>{{product[3]}}</td>
-          <td>{{product[4]}}</td>
+
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ product[0] }}">
+              Edit Product
+            </button>
+            </td>
+
         </tr> 
         {% endfor %}
       </tbody>

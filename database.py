@@ -127,6 +127,24 @@ def insert_user(user_details):
     
     
 
+def insert_stock(values):
+    insert = "insert into stock(pid,stock_quantity,created_at)values(%s,%s,now())"
+    cur.execute(insert,values)
+    conn.commit()
+
+def fetch_stock():
+    cur.execute('select * from stock;')
+    stock = cur.fetchall()
+    return stock
+
+
+def available_stock(pid):
+    cur.execute("select sum(stock_quantity) from stock where pid = %s", (pid,))
+    total_stock = cur.fetchone()[0]
+    cur.execute("select sum(sales.quantity) from sales where pid = %s ",(pid,))
+    total_sold = cur.fetchone()[0] or 0
+    return total_stock - total_sold
+
 
 
 
